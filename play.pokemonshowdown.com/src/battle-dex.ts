@@ -786,7 +786,7 @@ export const Dex = new class implements ModdedDex {
 				dir = "http://82.66.213.151:8000/sprite/shinyfront";
 			}
 			spriteData.url = dir + '/' + name + '.png';
-			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein") {
+			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein" || name === "sherlockholmes") {
 				if ((name === "gerardmax" || name === "kingratio") && !isFront) {
 					dir = "http://82.66.213.151:8000/sprite/back"; //code DEGEULASSE faudra que je me bouge pour refaire tout ça
 					if (options.shiny) {

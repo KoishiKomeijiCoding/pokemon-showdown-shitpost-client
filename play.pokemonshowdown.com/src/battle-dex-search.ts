@@ -1342,6 +1342,10 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 
 		const rows:SearchRow[] = [
+			['pokemon', 'punkcybernetique' as ID],
+			['pokemon', 'kingkong' as ID],
+			['pokemon', 'serverowner' as ID],
+			['pokemon', 'sherlockholmes' as ID],
 			['pokemon', 'franckducos' as ID],
 			['pokemon', 'moai' as ID],
 			['pokemon', 'tairanofumikado' as ID],
