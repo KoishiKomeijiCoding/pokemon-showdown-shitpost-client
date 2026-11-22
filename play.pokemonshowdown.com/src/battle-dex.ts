@@ -317,6 +317,7 @@ export const Dex = new class implements ModdedDex {
 			const server = `${protocol}://${Config.server.host}:${Config.server.port}`;
 			return `${server}/avatars/${encodeURIComponent(avatar).replace(/%3F/g, '?')}`;
 		}
+		console.log("Avatar URL: " +Dex.resourcePrefix + 'sprites/trainers/' + Dex.sanitizeName(avatar || 'unknown') + '.png');
 		return Dex.resourcePrefix + 'sprites/trainers/' + Dex.sanitizeName(avatar || 'unknown') + '.png';
 	}
 
@@ -781,10 +782,16 @@ export const Dex = new class implements ModdedDex {
 		console.log(species.name)
 		if (species.num >= 10000) {
     		dir = "http://82.66.213.151:8000/sprite/front";
+			if (options.shiny) {
+				dir = "http://82.66.213.151:8000/sprite/shinyfront";
+			}
 			spriteData.url = dir + '/' + name + '.png';
 			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein") {
 				if ((name === "gerardmax" || name === "kingratio") && !isFront) {
 					dir = "http://82.66.213.151:8000/sprite/back"; //code DEGEULASSE faudra que je me bouge pour refaire tout ça
+					if (options.shiny) {
+						dir = "http://82.66.213.151:8000/sprite/shinyback";
+					}
 				}
 				spriteData.url = dir + '/' + name + '.gif';
 			}
