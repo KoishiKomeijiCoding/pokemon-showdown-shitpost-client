@@ -88,6 +88,15 @@ export interface BattleTeamRequest {
 	chosenTeamSize?: number;
 	noCancel?: boolean;
 }
+/** Hephaistos (Dieu de la forge) : choix d'un objet à forger parmi 3 propositions. */
+export interface BattleForgeRequest {
+	requestType: 'forge';
+	rqid: number;
+	side: BattleRequestSideInfo;
+	ally?: BattleRequestAllyInfo;
+	forge: { pokemon: string, offered: { id: string, name: string, desc: string }[], remaining: number };
+	noCancel?: boolean;
+}
 export interface BattleWaitRequest {
 	requestType: 'wait';
 	rqid: number;
@@ -95,7 +104,7 @@ export interface BattleWaitRequest {
 	ally: undefined;
 	noCancel?: boolean;
 }
-export type BattleRequest = BattleMoveRequest | BattleSwitchRequest | BattleTeamRequest | BattleWaitRequest;
+export type BattleRequest = BattleMoveRequest | BattleSwitchRequest | BattleTeamRequest | BattleForgeRequest | BattleWaitRequest;
 
 interface BattleMoveChoice {
 	choiceType: 'move';
@@ -122,7 +131,12 @@ interface BattleSwitchChoice {
 interface BattleMiscChoice {
 	choiceType: 'shift' | 'testfight';
 }
-type BattleChoice = BattleMoveChoice | BattleSwitchChoice | BattleMiscChoice;
+interface BattleForgeChoice {
+	choiceType: 'forge';
+	/** 1-based index of the offered item */
+	index: number;
+}
+type BattleChoice = BattleMoveChoice | BattleSwitchChoice | BattleMiscChoice | BattleForgeChoice;
 
 /**
  * Tracks a partial choice, allowing you to build it up one step at a time,
@@ -220,6 +234,8 @@ export class BattleChoiceBuilder {
 			return request.forceSwitch.length;
 		case 'team':
 			return request.chosenTeamSize || 1;
+		case 'forge':
+			return 1;
 		case 'wait':
 			return 0;
 		}
@@ -577,6 +593,15 @@ export class BattleChoiceBuilder {
 			return current;
 		}
 
+		if (choice.startsWith('forge ')) {
+			if (request.requestType !== 'forge') throw new Error(`There is nothing to forge right now.`);
+			const index = parseInt(choice.slice(6), 10);
+			if (!(index >= 1 && index <= request.forge.offered.length)) {
+				throw new Error(`Choose an item between 1 and ${request.forge.offered.length}`);
+			}
+			return { choiceType: 'forge', index };
+		}
+
 		if (choice === 'pass') return null;
 
 		throw new Error(`Unrecognized choice "${choice}"`);
@@ -594,6 +619,8 @@ export class BattleChoiceBuilder {
 		case 'switch':
 		case 'team':
 			return `${choice.choiceType} ${choice.targetPokemon}`;
+		case 'forge':
+			return `forge ${choice.index}`;
 		case 'shift':
 		case 'testfight':
 			return choice.choiceType;
@@ -627,6 +654,8 @@ export class BattleChoiceBuilder {
 				request.requestType = 'switch';
 			} else if (request.teamPreview) {
 				request.requestType = 'team';
+			} else if (request.forge) {
+				request.requestType = 'forge';
 			} else if (request.wait) {
 				request.requestType = 'wait';
 			}

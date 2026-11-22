@@ -3100,7 +3100,9 @@ export class Battle {
 				poke.addMovestatus('charge' as ID);
 				break;
 			case 'forewarn':
-				if (target) {
+				if (kwArgs.of && this.getPokemon(kwArgs.of)) {
+					this.getPokemon(kwArgs.of)!.rememberMove(kwArgs.move, 0);
+				} else if (target) {
 					target.rememberMove(kwArgs.move, 0);
 				} else {
 					let foeActive = [] as Pokemon[];
