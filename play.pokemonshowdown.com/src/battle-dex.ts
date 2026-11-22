@@ -1,3 +1,7 @@
+/** Hôte des sprites custom (serveur Showdown). Surchargeable via Config.spritehost ; sinon localhost:8000 quand le client est ouvert en local. */
+const SPRITE_HOST: string = (typeof Config !== 'undefined' && (Config as any).spritehost) ||
+	(typeof location !== 'undefined' && location.hostname === 'localhost' ? 'http://localhost:8000' : 'http://82.66.213.151:8000');
+
 /**
  * Pokemon Showdown Dex
  *
@@ -780,11 +784,11 @@ export const Dex = new class implements ModdedDex {
 		console.log("on check les sprites")
 		console.log(species.name)
 		if (species.num >= 10000) {
-    		dir = "http://82.66.213.151:8000/sprite/front";
+    		dir = SPRITE_HOST + "/sprite/front";
 			spriteData.url = dir + '/' + name + '.png';
 			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein") {
 				if ((name === "gerardmax" || name === "kingratio") && !isFront) {
-					dir = "http://82.66.213.151:8000/sprite/back"; //code DEGEULASSE faudra que je me bouge pour refaire tout ça
+					dir = SPRITE_HOST + "/sprite/back"; //code DEGEULASSE faudra que je me bouge pour refaire tout ça
 				}
 				spriteData.url = dir + '/' + name + '.gif';
 			}
@@ -854,7 +858,7 @@ export const Dex = new class implements ModdedDex {
 		if (species.num >= 10000) {
 			if ((pokemon as Pokemon | ServerPokemon)?.fainted) {
 				return `
-				background-image: url(http://82.66.213.151:8000/sprite/icon/${id}.png);
+				background-image: url(${SPRITE_HOST}/sprite/icon/${id}.png);
 				background-repeat: no-repeat;
 				background-position: 0 0;
 				background-size: 40px 30px;
@@ -864,7 +868,7 @@ export const Dex = new class implements ModdedDex {
 			`;
 			}
 			return `
-				background-image: url(http://82.66.213.151:8000/sprite/icon/${id}.png);
+				background-image: url(${SPRITE_HOST}/sprite/icon/${id}.png);
 				background-repeat: no-repeat;
 				background-position: 0 0;
 				background-size: 40px 30px;
@@ -975,8 +979,8 @@ export const Dex = new class implements ModdedDex {
 		let id = toID(pokemon.species || pokemon);
 		let species = Dex.species.get(id);
 		if (species.num >= 10000) {
-			console.log(`background-image:url(http://82.66.213.151:8000/${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`)
-			return `background-image:url(http://82.66.213.151:8000/${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`;
+			console.log(`background-image:url(${SPRITE_HOST}/${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`)
+			return `background-image:url(${SPRITE_HOST}/${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`;
 		}
 		return `background-image:url(${Dex.resourcePrefix}${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`;
 	}
