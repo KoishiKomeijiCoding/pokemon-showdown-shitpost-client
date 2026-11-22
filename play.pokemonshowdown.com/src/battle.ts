@@ -272,6 +272,11 @@ export class Pokemon implements PokemonDetails, PokemonHealth {
 		if (!details) return false;
 		if (details === this.details) return true;
 		if (this.searchid) return false;
+		if (this.speciesOnly) {
+			// Révélé par Enquete speciale : on ne connaît que l'espèce, le niveau et le genre arrivent à l'entrée en jeu
+			const species = details.split(',')[0];
+			if (species === this.details || species.replace(/-[A-Za-z0-9-]+$/, '') === this.details) return true;
+		}
 		if (details.includes(', shiny')) {
 			if (this.checkDetails(details.replace(', shiny', ''))) return true;
 		}
@@ -279,6 +284,8 @@ export class Pokemon implements PokemonDetails, PokemonHealth {
 		details = details.replace(/(-[A-Za-z0-9-]+)?(, |$)/, '-*$2');
 		return (details === this.details);
 	}
+	/** Pokémon connu seulement par son espèce (révélé par Enquete speciale, voir `-revealteam`). */
+	speciesOnly = false;
 	getIdent() {
 		let slots = ['a', 'b', 'c', 'd', 'e', 'f'];
 		return this.ident.substr(0, 2) + slots[this.slot] + this.ident.substr(2);
@@ -3255,6 +3262,18 @@ export class Battle {
 			this.scene.beforeMove(poke);
 			this.animateMove(poke, move, poke2, kwArgs);
 			this.scene.afterMove(poke);
+			break;
+		}
+		case '-revealteam': {
+			// Capacité Enquete speciale : |-revealteam|SIDE|ESPECE1|ESPECE2|... (espèces seulement, rien d'autre)
+			const { siden } = this.parsePokemonId(args[1]);
+			const side = this.sides[siden];
+			for (const species of args.slice(2)) {
+				if (!species) continue;
+				const poke = this.rememberTeamPreviewPokemon(args[1], species);
+				poke.speciesOnly = true;
+			}
+			this.scene.updateSidebar(side);
 			break;
 		}
 		case '-detective': {
