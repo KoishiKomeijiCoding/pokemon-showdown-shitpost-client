@@ -1658,7 +1658,7 @@ export class Battle {
 		console.log(usedMove.id)
 		if (usedMove.id === "allahakbar") {
 			console.log("on entre dans la conditionnelle")
-			usedMove.id = "explosion" as ID //ratio
+			usedMove.id = "selfdestruct" as ID //Allah Akbar : animation de Self-Destruct (demande de Rudolf)
 		}
 		if (usedMove.id === "zap") {
 			console.log("on entre dans la conditionnelle")
