@@ -1170,7 +1170,7 @@ class BattlePanel extends PSRoomPanel<BattleRoom> {
 		return <div class="inline-controls">
 			<div class="whatdo">
 				<strong>{pokemon}</strong> forge un objet ! Choisissez parmi les 3 propositions
-				{remaining > 1 ? ` (encore ${remaining} forges après celle-ci)` : ''} :
+				{remaining > 1 ? ` (encore ${remaining - 1} forge${remaining > 2 ? 's' : ''} après celle-ci)` : ''} :
 			</div>
 			<div class="movecontrols">
 				<div class="movemenu">
