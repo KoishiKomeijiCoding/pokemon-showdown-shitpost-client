@@ -1342,6 +1342,13 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		}
 
 		const rows:SearchRow[] = [
+			['pokemon', 'franckducos' as ID],
+			['pokemon', 'moai' as ID],
+			['pokemon', 'tairanofumikado' as ID],
+			['pokemon', 'tableikea' as ID],
+			['pokemon', 'zinedinezidane' as ID],
+			['pokemon', 'herowizardtrio' as ID],
+			['pokemon', 'crs' as ID],
 			['pokemon', 'xenoa' as ID],
 			['pokemon', 'hal' as ID],
 			['pokemon', 'cagegobeline' as ID],
@@ -1379,7 +1386,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 			['pokemon', 'herominipekka' as ID],
 			['pokemon', 'boulistehero' as ID],
 			['pokemon', 'vesuve' as ID],
-			['pokemon', 'fillepixiudesixans' as ID],
+			['pokemon', 'fillepixiu' as ID],
 			['pokemon', 'miradrip' as ID],
 			['pokemon', 'chatgpt' as ID],
 			['pokemon', 'omniman' as ID],

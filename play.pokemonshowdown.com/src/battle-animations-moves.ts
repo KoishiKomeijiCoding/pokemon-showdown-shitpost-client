@@ -38795,3 +38795,4 @@ BattleMoveAnims['eau'] = { anim: BattleMoveAnims['present'].anim };
 BattleMoveAnims['bananeplantain'] = { anim: BattleMoveAnims['present'].anim };
 BattleMoveAnims['lancepierre'] = { anim: BattleMoveAnims['present'].anim };
 BattleMoveAnims['lanceoiseau'] = { anim: BattleMoveAnims['skyattack'].anim };
+BattleMoveAnims['fuckyou'] = { anim: BattleMoveAnims['fakeout'].anim };

@@ -1656,6 +1656,12 @@ export class Battle {
 
 		let usedMove = kwArgs.anim ? Dex.moves.get(kwArgs.anim) : move;
 		console.log(usedMove.id)
+		if (usedMove.id === "jackpot") {
+			usedMove.id = "makeitrain" as ID 
+		}
+		if (usedMove.id === "cendresdepompei") {
+			usedMove.id = "eruption" as ID 
+		}
 		if (usedMove.id === "allahakbar") {
 			console.log("on entre dans la conditionnelle")
 			usedMove.id = "selfdestruct" as ID //Allah Akbar : animation de Self-Destruct (demande de Rudolf)
