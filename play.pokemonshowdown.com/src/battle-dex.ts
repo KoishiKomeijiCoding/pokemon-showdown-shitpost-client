@@ -786,7 +786,7 @@ export const Dex = new class implements ModdedDex {
 		if (species.num >= 10000) {
     		dir = SPRITE_HOST + "/sprite/front";
 			spriteData.url = dir + '/' + name + '.png';
-			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein") {
+			if (name === "dogwithshirt" || name === "gerardmax" || name === "kingratio" || name === "regitube" || name === "inspecteurdelhygiene" || name === "teslaeteinstein" || name === "sherlockholmes") {
 				if ((name === "gerardmax" || name === "kingratio") && !isFront) {
 					dir = SPRITE_HOST + "/sprite/back"; //code DEGEULASSE faudra que je me bouge pour refaire tout ça
 				}

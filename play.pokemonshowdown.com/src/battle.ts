@@ -3257,6 +3257,21 @@ export class Battle {
 			this.scene.afterMove(poke);
 			break;
 		}
+		case '-detective': {
+			// Talent Detective (Sherlock Holmes) : révèle silencieusement talent, objet et capacités de la cible.
+			// |-detective|POKEMON|ABILITY|ITEM|MOVE1|MOVE2|...
+			const poke = this.getPokemon(args[1]);
+			if (!poke) break;
+			if (args[2]) poke.rememberAbility(Dex.abilities.get(args[2]).name);
+			if (args[3]) {
+				poke.item = Dex.items.get(args[3]).name;
+				poke.itemEffect = '';
+			}
+			for (const moveName of args.slice(4)) {
+				if (moveName) poke.rememberMove(moveName, 0);
+			}
+			break;
+		}
 		case '-hint': case '-message': case '-candynamax': {
 			this.log(args, kwArgs);
 			break;
