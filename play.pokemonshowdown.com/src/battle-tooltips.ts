@@ -545,6 +545,7 @@ export class BattleTooltips {
 		Ground: "Tectonic Rage",
 		Fairy: "Twinkle Tackle",
 		Stellar: "",
+		Sound: "",
 		"???": "",
 	};
 
@@ -568,6 +569,8 @@ export class BattleTooltips {
 		Ground: "Max Quake",
 		Fairy: "Max Starfall",
 		Stellar: "",
+		// Type custom : le serveur utilise Max Strike en gardant le type Sound
+		Sound: "Max Strike",
 		"???": "",
 	};
 

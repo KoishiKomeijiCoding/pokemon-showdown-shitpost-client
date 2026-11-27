@@ -1005,10 +1005,19 @@ export const Dex = new class implements ModdedDex {
 		return `background:transparent url(${Dex.resourcePrefix}sprites/itemicons-sheet.png?v1) no-repeat scroll -${left}px -${top}px`; //ici 
 	}
 
+	/** URL d'une image custom servie par le serveur Showdown (ex. 'misc/marianne.png'). */
+	customSpriteUrl(path: string) {
+		return `${SPRITE_HOST}/sprite/${path}${SPRITE_QUERY}`;
+	}
+
 	getTypeIcon(type: string | null, b?: boolean) { // b is just for utilichart.js
 		type = this.types.get(type).name;
 		if (!type) type = '???';
 		let sanitizedType = type.replace(/\?/g, '%3f');
+		// Types custom : image servie par le serveur Showdown
+		if (type === 'Sound') {
+			return `<img src="${SPRITE_HOST}/sprite/types/${sanitizedType}.png${SPRITE_QUERY}" alt="${type}" height="14" width="32" class="pixelated${b ? ' b' : ''}" />`;
+		}
 		return `<img src="${Dex.resourcePrefix}sprites/types/${sanitizedType}.png" alt="${type}" height="14" width="32" class="pixelated${b ? ' b' : ''}" />`;
 	}
 

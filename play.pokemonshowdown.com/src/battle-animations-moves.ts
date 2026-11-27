@@ -38796,3 +38796,9 @@ BattleMoveAnims['bananeplantain'] = { anim: BattleMoveAnims['present'].anim };
 BattleMoveAnims['lancepierre'] = { anim: BattleMoveAnims['present'].anim };
 BattleMoveAnims['lanceoiseau'] = { anim: BattleMoveAnims['skyattack'].anim };
 BattleMoveAnims['fuckyou'] = { anim: BattleMoveAnims['fakeout'].anim };
+
+// ---- Le Coq Francais ----
+BattleMoveAnims['cocorico'] = { anim: BattleMoveAnims['hyperbeam'].anim }; // Ultralaser de type Sound
+BattleMoveAnims['tourdefrance'] = { anim: BattleMoveAnims['dualwingbeat'].anim };
+BattleMoveAnims['chantducoq'] = { anim: BattleMoveAnims['hypervoice'].anim };
+BattleMoveAnims['manif'] = { anim: BattleMoveAnims['spikes'].anim };

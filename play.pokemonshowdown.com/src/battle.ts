@@ -718,7 +718,7 @@ export class Side {
 	addSideCondition(effect: Dex.Effect, persist: boolean) {
 		let condition = effect.id;
 		if (this.sideConditions[condition]) {
-			if (condition === 'spikes' || condition === 'toxicspikes') {
+			if (condition === 'spikes' || condition === 'toxicspikes' || condition === 'manif') {
 				this.sideConditions[condition][1]++;
 			}
 			this.battle.scene.addSideCondition(this.n, condition);
@@ -3230,6 +3230,8 @@ export class Battle {
 				if (this.gen > 6) maxTimeLeft = 8;
 			}
 			if (kwArgs.persistent) minTimeLeft += 2;
+			// République (talent Patriotisme) : dure tant que le Coq est sur le terrain, pas de compte à rebours
+			if (effect.id === 'republique') minTimeLeft = 0;
 			this.addPseudoWeather(effect.name, minTimeLeft, maxTimeLeft);
 
 			switch (effect.id) {
