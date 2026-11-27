@@ -745,3 +745,37 @@
 			#e79 340deg 360deg
 		);
 }
+
+/* Type custom Sound */
+.movemenu button.type-Sound {
+	background: hsl(172,45%,93%);
+	background: linear-gradient(to bottom,  hsl(172,45%,97%),  hsl(172,45%,84%));
+	border-color: hsl(172,45%,70%);
+}
+.movemenu button.type-Sound small {
+	color: hsl(172,45%,35%);
+}
+.movemenu button.type-Sound:hover {
+	background: hsl(172,45%,87%);
+	background: linear-gradient(to bottom,  hsl(172,45%,94%),  hsl(172,45%,77%));
+	border-color: hsl(172,45%,35%);
+}
+.movemenu button.type-Sound:active, .movemenu button.type-Sound.pressed {
+	background: hsl(172,45%,77%);
+	background: linear-gradient(to bottom,  hsl(172,45%,77%),  hsl(172,45%,83%));
+	border-color: hsl(172,45%,35%);
+}
+.typetile-Sound {
+	background-color:#1A9686;
+}
+.tint-Sound.tint-Sound {
+	background-color: #c4e8e2;
+	color: #18766a;
+}
+.dark .tint-Sound.tint-Sound {
+	background-color: #2c5a54;
+	color: #d4f0ec;
+}
+.typeicon-Sound {
+	background: scroll #1A9686 no-repeat 2px center / 16px;
+}

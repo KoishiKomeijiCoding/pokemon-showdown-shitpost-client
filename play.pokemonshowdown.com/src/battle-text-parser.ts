@@ -1219,7 +1219,7 @@ export class BattleTextParser {
 			return template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[TARGET]', this.pokemon(target));
 		}
 
-		case '-anim': {
+		case '-anim': case '-detective': case '-revealteam': {
 			return '';
 		}
 

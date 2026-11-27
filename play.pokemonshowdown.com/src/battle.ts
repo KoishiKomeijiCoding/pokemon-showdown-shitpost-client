@@ -272,6 +272,11 @@ export class Pokemon implements PokemonDetails, PokemonHealth {
 		if (!details) return false;
 		if (details === this.details) return true;
 		if (this.searchid) return false;
+		if (this.speciesOnly) {
+			// Révélé par Enquete speciale : on ne connaît que l'espèce, le niveau et le genre arrivent à l'entrée en jeu
+			const species = details.split(',')[0];
+			if (species === this.details || species.replace(/-[A-Za-z0-9-]+$/, '') === this.details) return true;
+		}
 		if (details.includes(', shiny')) {
 			if (this.checkDetails(details.replace(', shiny', ''))) return true;
 		}
@@ -279,6 +284,8 @@ export class Pokemon implements PokemonDetails, PokemonHealth {
 		details = details.replace(/(-[A-Za-z0-9-]+)?(, |$)/, '-*$2');
 		return (details === this.details);
 	}
+	/** Pokémon connu seulement par son espèce (révélé par Enquete speciale, voir `-revealteam`). */
+	speciesOnly = false;
 	getIdent() {
 		let slots = ['a', 'b', 'c', 'd', 'e', 'f'];
 		return this.ident.substr(0, 2) + slots[this.slot] + this.ident.substr(2);
@@ -711,7 +718,7 @@ export class Side {
 	addSideCondition(effect: Dex.Effect, persist: boolean) {
 		let condition = effect.id;
 		if (this.sideConditions[condition]) {
-			if (condition === 'spikes' || condition === 'toxicspikes') {
+			if (condition === 'spikes' || condition === 'toxicspikes' || condition === 'manif') {
 				this.sideConditions[condition][1]++;
 			}
 			this.battle.scene.addSideCondition(this.n, condition);
@@ -1657,7 +1664,7 @@ export class Battle {
 		}
 		if (usedMove.id === "allahakbar") {
 			console.log("on entre dans la conditionnelle")
-			usedMove.id = "explosion" as ID //ratio
+			usedMove.id = "selfdestruct" as ID //Allah Akbar : animation de Self-Destruct (demande de Rudolf)
 		}
 		if (usedMove.id === "zap") {
 			console.log("on entre dans la conditionnelle")
@@ -3106,7 +3113,9 @@ export class Battle {
 				poke.addMovestatus('charge' as ID);
 				break;
 			case 'forewarn':
-				if (target) {
+				if (kwArgs.of && this.getPokemon(kwArgs.of)) {
+					this.getPokemon(kwArgs.of)!.rememberMove(kwArgs.move, 0);
+				} else if (target) {
 					target.rememberMove(kwArgs.move, 0);
 				} else {
 					let foeActive = [] as Pokemon[];
@@ -3221,6 +3230,8 @@ export class Battle {
 				if (this.gen > 6) maxTimeLeft = 8;
 			}
 			if (kwArgs.persistent) minTimeLeft += 2;
+			// République (talent Patriotisme) : dure tant que le Coq est sur le terrain, pas de compte à rebours
+			if (effect.id === 'republique') minTimeLeft = 0;
 			this.addPseudoWeather(effect.name, minTimeLeft, maxTimeLeft);
 
 			switch (effect.id) {
@@ -3259,6 +3270,33 @@ export class Battle {
 			this.scene.beforeMove(poke);
 			this.animateMove(poke, move, poke2, kwArgs);
 			this.scene.afterMove(poke);
+			break;
+		}
+		case '-revealteam': {
+			// Capacité Enquete speciale : |-revealteam|SIDE|ESPECE1|ESPECE2|... (espèces seulement, rien d'autre)
+			const { siden } = this.parsePokemonId(args[1]);
+			const side = this.sides[siden];
+			for (const species of args.slice(2)) {
+				if (!species) continue;
+				const poke = this.rememberTeamPreviewPokemon(args[1], species);
+				poke.speciesOnly = true;
+			}
+			this.scene.updateSidebar(side);
+			break;
+		}
+		case '-detective': {
+			// Talent Detective (Sherlock Holmes) : révèle silencieusement talent, objet et capacités de la cible.
+			// |-detective|POKEMON|ABILITY|ITEM|MOVE1|MOVE2|...
+			const poke = this.getPokemon(args[1]);
+			if (!poke) break;
+			if (args[2]) poke.rememberAbility(Dex.abilities.get(args[2]).name);
+			if (args[3]) {
+				poke.item = Dex.items.get(args[3]).name;
+				poke.itemEffect = '';
+			}
+			for (const moveName of args.slice(4)) {
+				if (moveName) poke.rememberMove(moveName, 0);
+			}
 			break;
 		}
 		case '-hint': case '-message': case '-candynamax': {

@@ -17,7 +17,7 @@ import { BattleScene } from "./battle-animations";
 import { Dex, toID, type ID } from "./battle-dex";
 import {
 	BattleChoiceBuilder, type BattleRequestActivePokemon, type BattleRequestSideInfo,
-	type BattleRequest, type BattleMoveRequest, type BattleSwitchRequest, type BattleTeamRequest,
+	type BattleRequest, type BattleMoveRequest, type BattleSwitchRequest, type BattleTeamRequest, type BattleForgeRequest,
 } from "./battle-choices";
 import type { Args } from "./battle-text-parser";
 import { ModifiableValue } from "./battle-tooltips";
@@ -179,6 +179,10 @@ export class BattleRoom extends ChatRoom {
 		case 'switch':
 			title = "Your switch!";
 			body = "Switch in your battle" + oName;
+			break;
+		case 'forge':
+			title = "Forge!";
+			body = "Choose an item to forge in your battle" + oName;
 			break;
 		case 'team':
 			title = "Team preview!";
@@ -1160,6 +1164,26 @@ class BattlePanel extends PSRoomPanel<BattleRoom> {
 			</div>
 		</div>;
 	}
+	/** Hephaistos : interface de choix d'un objet à forger (3 propositions). */
+	renderPlayerForgeControls(request: BattleForgeRequest, choices: BattleChoiceBuilder) {
+		const { pokemon, offered, remaining } = request.forge;
+		return <div class="inline-controls">
+			<div class="whatdo">
+				<strong>{pokemon}</strong> forge un objet ! Choisissez parmi les 3 propositions
+				{remaining > 1 ? ` (encore ${remaining - 1} forge${remaining > 2 ? 's' : ''} après celle-ci)` : ''} :
+			</div>
+			<div class="movecontrols">
+				<div class="movemenu">
+					{offered.map((item, i) => (
+						<button class="button forgebutton" data-cmd={`/forge ${i + 1}`} style="min-width:12em;text-align:left;margin:2px">
+							<span class="itemicon" style={Dex.getItemIcon(item.name)} /> <strong>{item.name}</strong>
+							<br /><small>{item.desc}</small>
+						</button>
+					))}
+				</div>
+			</div>
+		</div>;
+	}
 	renderPlayerTeamPreviewControls(request: BattleTeamRequest, choices: BattleChoiceBuilder, overlayVersion = false) {
 		const prompt = choices.alreadySwitchingIn.length > 0 ? (
 			[<button data-cmd="/cancelone" class="button"><i class="fa fa-chevron-left" aria-hidden></i> Back</button>,
@@ -1257,6 +1281,8 @@ class BattlePanel extends PSRoomPanel<BattleRoom> {
 			return this.renderPlayerSwitchControls(request, choices, overlayVersion);
 		case 'team':
 			return this.renderPlayerTeamPreviewControls(request, choices, overlayVersion);
+		case 'forge':
+			return this.renderPlayerForgeControls(request, choices);
 		}
 		return null;
 	}

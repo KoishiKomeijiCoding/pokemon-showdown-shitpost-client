@@ -57,6 +57,9 @@ export class BattleScene implements BattleSceneStub {
 	$options: JQuery = null!;
 	log: BattleLog;
 	$terrain: JQuery = null!;
+	/** Fond de la République (Patriotisme) : La Liberté guidant le peuple, tant que la République dure */
+	$republique: JQuery = null!;
+	curRepublique = false;
 	$weather: JQuery = null!;
 	$bgEffect: JQuery = null!;
 	$bg: JQuery = null!;
@@ -154,6 +157,10 @@ export class BattleScene implements BattleSceneStub {
 
 		this.$bg = $('<div class="backdrop" style="background-image:url(' + Dex.resourcePrefix + this.backdropImage + ');display:block;opacity:0.8"></div>');
 		this.$terrain = $('<div class="weather"></div>');
+		this.$republique = $('<div class="weather" style="display:none;opacity:0"></div>').css({
+			background: `#554433 url(${Dex.customSpriteUrl('misc/marianne.png')}) no-repeat center / cover`,
+		});
+		this.curRepublique = false;
 		this.$weather = $('<div class="weather"></div>');
 		this.$bgEffect = $('<div></div>');
 		this.$sprite = $('<div></div>');
@@ -178,6 +185,7 @@ export class BattleScene implements BattleSceneStub {
 		this.$tooltips = $('<div class="tooltips"></div>');
 
 		this.$battle.append(this.$bg);
+		this.$battle.append(this.$republique);
 		this.$battle.append(this.$terrain);
 		this.$battle.append(this.$weather);
 		this.$battle.append(this.$bgEffect);
@@ -1034,8 +1042,27 @@ export class BattleScene implements BattleSceneStub {
 			weather = '' as ID;
 		}
 		let terrain = '' as ID;
+		let republique = false;
 		for (const pseudoWeatherData of this.battle.pseudoWeather) {
+			if (toID(pseudoWeatherData[0]) === 'republique') {
+				republique = true;
+				continue;
+			}
 			terrain = toID(pseudoWeatherData[0]);
+		}
+		if (republique !== this.curRepublique) {
+			// Patriotisme : le tableau de Delacroix reste en fond tant que la République est en cours
+			this.curRepublique = republique;
+			this.$republique.stop(true);
+			if (republique) {
+				this.$republique.css('display', 'block');
+				if (instant) this.$republique.css('opacity', 0.8);
+				else this.$republique.animate({ opacity: 0.8 }, 400);
+			} else if (instant) {
+				this.$republique.css({ opacity: 0, display: 'none' });
+			} else {
+				this.$republique.animate({ opacity: 0 }, 400, () => this.$republique.css('display', 'none'));
+			}
 		}
 		if (weather === 'desolateland' || weather === 'primordialsea' || weather === 'deltastream') {
 			isIntense = true;
@@ -1399,6 +1426,30 @@ export class BattleScene implements BattleSceneStub {
 				tspikeArray.push(tspike2);
 			}
 			break;
+		case 'manif': {
+			// Barricades de Manif (Le Coq Francais) : une petite barricade par couche, comme Toxic Spikes
+			let barricadeArray = this.sideConditions[siden]['manif'];
+			if (!barricadeArray) {
+				barricadeArray = [];
+				this.sideConditions[siden]['manif'] = barricadeArray;
+			}
+			const barricadeLevels = this.battle.sides[siden].sideConditions['manif'][1];
+			const barricade = { url: Dex.customSpriteUrl('misc/barricade.png'), w: 160, h: 141 };
+			const positions = [[side.leftof(-30), -35], [side.leftof(10), -42], [side.leftof(50), -35]];
+			while (barricadeArray.length < Math.min(barricadeLevels, 3)) {
+				const [dx, dy] = positions[barricadeArray.length];
+				const sprite = new Sprite(barricade, {
+					display: 'block',
+					x: x + dx,
+					y: y + dy,
+					z: side.z,
+					scale: 0.25,
+				}, this);
+				this.$spritesFront[spriteIndex].append(sprite.$el);
+				barricadeArray.push(sprite);
+			}
+			break;
+		}
 		case 'stickyweb':
 			const web = new Sprite(BattleEffects.web, {
 				display: 'block',

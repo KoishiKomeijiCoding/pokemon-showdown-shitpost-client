@@ -38740,3 +38740,65 @@ BattleMoveAnims['tripledive'] = { anim: BattleMoveAnims['dive'].anim };
 BattleMoveAnims['hydrosteam'] = { anim: BattleMoveAnims['steameruption'].anim };
 BattleMoveAnims['psyblade'] = { anim: BattleMoveAnims['psychocut'].anim };
 BattleMoveAnims['polarflare'] = { anim: BattleMoveAnims['torchsong'].anim };
+
+// ---- Animations des attaques custom (réutilisent les animations existantes) ----
+BattleMoveAnims['masterpiece'] = { // Gigaton Hammer sur soi
+	anim(scene, [attacker]) {
+		BattleMoveAnims['gigatonhammer'].anim(scene, [attacker, attacker]);
+	},
+};
+BattleMoveAnims['durumexpress'] = { // animation de baie mangée
+	anim(scene, [attacker]) {
+		BattleOtherAnims['consume'].anim(scene, [attacker]);
+	},
+};
+BattleMoveAnims['megasaut'] = { anim: BattleMoveAnims['fly'].anim }; // l'attaque de Vol (2e tour), sans la préparation
+BattleMoveAnims['amnesia1g'] = { anim: BattleMoveAnims['amnesia'].anim };
+BattleMoveAnims['psyko1g'] = { anim: BattleMoveAnims['psychic'].anim };
+BattleMoveAnims['blizzard1gprestadium'] = { anim: BattleMoveAnims['blizzard'].anim };
+BattleMoveAnims['recover1g'] = { anim: BattleMoveAnims['recover'].anim };
+BattleMoveAnims['icebeam1g'] = { anim: BattleMoveAnims['icebeam'].anim };
+BattleMoveAnims['thunderbolt1g'] = { anim: BattleMoveAnims['thunderbolt'].anim };
+BattleMoveAnims['thunderwave1g'] = { anim: BattleMoveAnims['thunderwave'].anim };
+BattleMoveAnims['selfdestruct1g'] = { anim: BattleMoveAnims['selfdestruct'].anim };
+BattleMoveAnims['fireblast1g'] = { anim: BattleMoveAnims['fireblast'].anim };
+BattleMoveAnims['thunder1g'] = { anim: BattleMoveAnims['thunder'].anim };
+BattleMoveAnims['lameakebab'] = { anim: BattleMoveAnims['sacredsword'].anim };
+BattleMoveAnims['gicleedesaucealgerienne'] = { anim: BattleMoveAnims['syrupbomb'].anim };
+BattleMoveAnims['enquetespeciale'] = { anim: BattleMoveAnims['foresight'].anim };
+BattleMoveAnims['balles'] = { anim: BattleMoveAnims['snipeshot'].anim };
+BattleMoveAnims['genkidama'] = { anim: BattleMoveAnims['clangoroussoulblaze'].anim };
+BattleMoveAnims['watchhogblast'] = { anim: BattleMoveAnims['gigaimpact'].anim };
+BattleMoveAnims['mangetesmorts'] = { anim: BattleMoveAnims['leechseed'].anim };
+BattleMoveAnims['corruption'] = { anim: BattleMoveAnims['leechseed'].anim };
+BattleMoveAnims['supergravity'] = { anim: BattleMoveAnims['gravity'].anim };
+BattleMoveAnims['rouletteofdestiny'] = { anim: BattleMoveAnims['metronome'].anim };
+BattleMoveAnims['zap'] = { anim: BattleMoveAnims['thunder'].anim };
+BattleMoveAnims['jackpot'] = { anim: BattleMoveAnims['makeitrain'].anim };
+BattleMoveAnims['cancer'] = { anim: BattleMoveAnims['toxic'].anim };
+BattleMoveAnims['cestlheuredesortirlespoubelles'] = { anim: BattleMoveAnims['gunkshot'].anim };
+BattleMoveAnims['cendresdepompei'] = { anim: BattleMoveAnims['eruption'].anim };
+BattleMoveAnims['imomniingit'] = { anim: BattleMoveAnims['populationbomb'].anim };
+BattleMoveAnims['chaise'] = { anim: BattleMoveAnims['smartstrike'].anim };
+BattleMoveAnims['standreadyformyworm'] = { anim: BattleMoveAnims['irontail'].anim };
+BattleMoveAnims['secretceremonyhiddenseason'] = { anim: BattleMoveAnims['weatherball'].anim };
+BattleMoveAnims['bowling'] = { anim: BattleMoveAnims['rollout'].anim };
+BattleMoveAnims['fireboll'] = { anim: BattleMoveAnims['pyroball'].anim };
+BattleMoveAnims['allahakbar'] = { anim: BattleMoveAnims['selfdestruct'].anim };
+BattleMoveAnims['musiquearabe'] = { anim: BattleMoveAnims['relicsong'].anim };
+BattleMoveAnims['reveal'] = { anim: BattleMoveAnims['shadowsneak'].anim };
+BattleMoveAnims['ragebait'] = { anim: BattleMoveAnims['ragepowder'].anim };
+BattleMoveAnims['killyourself'] = { anim: BattleMoveAnims['thunder'].anim };
+BattleMoveAnims['underwhelminggadgetjob'] = { anim: BattleMoveAnims['doubleslap'].anim };
+BattleMoveAnims['pneus'] = { anim: BattleMoveAnims['present'].anim };
+BattleMoveAnims['eau'] = { anim: BattleMoveAnims['present'].anim };
+BattleMoveAnims['bananeplantain'] = { anim: BattleMoveAnims['present'].anim };
+BattleMoveAnims['lancepierre'] = { anim: BattleMoveAnims['present'].anim };
+BattleMoveAnims['lanceoiseau'] = { anim: BattleMoveAnims['skyattack'].anim };
+BattleMoveAnims['fuckyou'] = { anim: BattleMoveAnims['fakeout'].anim };
+
+// ---- Le Coq Francais ----
+BattleMoveAnims['cocorico'] = { anim: BattleMoveAnims['hyperbeam'].anim }; // Ultralaser de type Sound
+BattleMoveAnims['tourdefrance'] = { anim: BattleMoveAnims['dualwingbeat'].anim };
+BattleMoveAnims['chantducoq'] = { anim: BattleMoveAnims['hypervoice'].anim };
+BattleMoveAnims['manif'] = { anim: BattleMoveAnims['spikes'].anim };
